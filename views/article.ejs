@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="sidebar">
+        <ul id="sidebar">
+        </ul>
+    </div>
+    <article class="" id="article">
+        <% data.forEach(item => { %>
+
+            <p>Published: <%= item.createdAt %></p>
+            <p>Last updated: <%= item.updatedAt %></p>
+            <div class="" id="content">
+                <%- content.trim() %>
+            </div>
+            <p>Author: <%= item.author %></p>
+        <% }); %>
+    </article>
+</div>

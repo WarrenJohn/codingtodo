@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="">
+        <%- result %>
+    </div>
+    <form class="" method="post">
+        <div class="two-grid">
+            <div class="">
+                <input type="text" name="title" value="<%- title %>" class="big-input" placeholder="Title" autocomplete="false" required>
+                <input type="text" name="topic" value="<%- topic %>" class="big-input" placeholder="Topic" autocomplete="false" required>
+                <h2>Article Content</h2>
+                <p>Use <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank"><strong>Markdown syntax</strong></a></p>
+                <textarea id="writing-prompt" rows="8" cols="80" name="blog" autocomplete="false" required><%- content %></textarea>
+
+            </div>
+            <div class="" id="blog-content"></div>
+        </div>
+        <input type="submit" name="" class="submit" value="Submit">
+    </form>
+
+</div>

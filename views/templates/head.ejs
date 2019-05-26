@@ -1,0 +1,24 @@
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../static/css/master.css">
+    <script src="../static/js/main.js" defer></script>
+    <% if (file==='todo') { %>
+        <title>To-do List</title>
+        <script src="../static/js/todo.js" defer></script>
+    <% }%>
+    <% if (file === 'addBlog' || file === 'editBlog') { %>
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <title>Admin | codingtodo.com</title>
+        <script src="../static/js/addBlog.js" defer></script>
+    <% }%>
+    <% if (file === 'article') { %>
+        <script src="../static/js/article.js" defer></script>
+    <% }%>
+    <% if (file === 'register') { %>
+        <script src="../static/js/register.js" defer></script>
+    <% }%>
+    <% if (file === 'admin' || file === 'deleteBlog') { %>
+        <title>Admin | codingtodo.com</title>
+    <% }%>
+    <title>Programming is beautiful | codingtodo.com</title>
+</head>

@@ -1,0 +1,4 @@
+*.py linguist-language=Python
+*.js linguist-language=Javascript
+templates/* linguist-vendored
+static/* linguist-vendored

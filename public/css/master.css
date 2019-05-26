@@ -1,0 +1,484 @@
+/*
+Other colors
+#4888E8
+rgba(72, 132, 232, 1);
+
+#E55656;
+rgba(229, 86, 86, 1);
+
+#BB6BD9;
+rgba(187, 107, 217, 1);
+
+#F2994A;
+rgba(242, 153, 74, 1)
+
+JS
+#f0db4f
+rgba(240, 219, 79, 1)
+
+Node.js
+#90c53f
+rgba(144, 197, 63, 1)
+
+Python
+#376a96
+rgba(55, 106, 150, 1)
+
+*/
+
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+body{
+    color: #3b3b3b;
+    font-family: 'Lato', sans-serif;
+}
+header{
+    position: fixed;
+    z-index: 10;
+    background-color: #fafafa;
+    width: 100%;
+    font-size: 20px;
+    border-bottom: 1px #d5d5d5 solid;
+}
+blockquote{
+    border-left: 1px #d5d5d5 solid;
+    padding-left: .25rem;
+}
+blockquote a{
+    color: rgba(72, 132, 232, 1);
+    font-weight: 700;
+}
+footer{
+    background-color: #fafafa;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    margin-bottom: 5rem;
+    padding-top: 1rem;
+    text-align: center;
+    border-top: 1px #d5d5d5 solid;
+}
+nav{
+    width: 80%;
+    margin: auto;
+    padding: 1.5rem 0;
+}
+
+nav a{
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    text-decoration: none;
+    color: #3b3b3b;
+}
+nav ul{
+    float: right;
+    list-style: none;
+    height: 100%;
+}
+nav div{
+    display: flex;
+    justify-content: space-between;
+}
+nav ul li{
+    padding: 1.5rem;
+}
+nav ul li:last-child{
+    padding-right: 0;
+}
+nav ul li a{
+    text-transform: uppercase;
+    display: block;
+}
+nav a:hover {
+    border-bottom: 1px #d5d5d5 solid;
+}
+main{
+    min-height: 800px;
+    margin: auto;
+    width: 100%;
+    padding: 5rem 0;
+}
+ul{
+    list-style: none;
+}
+button{
+    background-color: #E55656;
+    padding: .5rem;
+    color: #fff;
+}
+textarea{
+    padding: .5rem;
+    width: 100%;
+    border: 1px #d5d5d5 solid;
+    border-radius: 10px;
+    max-width: 90vw;
+    font-family: 'Lato', sans-serif;
+    font-size: 20px;
+    font-weight: 300;
+}
+h1, h2, h3{
+    padding: 3rem 0 .5rem 2rem;
+    font-weight: 400;
+}
+h1{
+    font-size: 3rem;
+}
+h2{
+    font-size: 1.65rem;
+}
+h3{
+    font-size: 1.35rem;
+}
+ol{
+    padding-left: 1.2rem;
+}
+ol, p{
+    line-height: 1.7;
+}
+p{
+    margin: 18px 0;
+    font-size: 20px;
+    font-weight: 300;
+}
+a{
+    font-size: 18px;
+    text-decoration: none;
+    color: #3b3b3b;
+    transition-property: color;
+    transition-duration: 100ms;
+}
+a:hover{
+    color: rgba(229, 86, 86, 1);
+}
+pre{
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: #282C34;
+    overflow: scroll;
+}
+code{
+    font-size: 15px;
+    font-weight: 300;
+    margin: .15rem .25rem;
+    padding: .15rem .25rem;
+    border-radius: 3px;
+    background-color: #282C34;
+    color: #fff;
+}
+article{
+    width: 100%;
+}
+article a{
+    color: #4888E8;
+    font-weight: 700;
+}
+#list{
+    text-align: left;
+    width: 85%;
+    padding: 1rem;
+    margin: 1rem;
+    font-size: 25px;
+    font-weight: 300;
+}
+#login{
+    margin: auto;
+    text-align: center;
+}
+#login p, #login a{
+    font-size: 14px;
+}
+#login a{
+    color: #4888E8;
+    font-weight: 700;
+}
+#login input{
+    border: 1px #d5d5d5 solid;
+    background-color: #f9f9f9;
+    font-family: 'Lato', sans-serif;
+    border-radius: 2px;
+    width: 90%;
+    padding: 1rem;
+    margin: .5rem 0;
+}
+#login input[type=submit]{
+    border: none;
+    border-radius: 0px;
+    width: 200px;
+    background-color: rgba(72, 132, 232, .9);
+    color: #fafafa;
+    cursor: pointer;
+}
+#login input[type=submit]:hover{
+    border: none;
+    width: 200px;
+    background-color: rgba(72, 132, 232, 1);
+    color: #fafafa;
+    cursor: pointer;
+}
+
+.container article{
+    margin: auto;
+}
+.hide-mobile{
+    display: none;
+}
+.hide{
+    display: none;
+}
+.show-mobile{
+    display: block;
+}
+.menu-icon{
+    text-align: center;
+    height: 24px;
+    width: auto;
+}
+.sidebar{
+    display: none;
+    padding: 1rem;
+    position: fixed;
+    border-right: 1px #d5d5d5 dashed;
+    height: 85%;
+}
+.sidebar ul li{
+    padding: .75rem 0;
+}
+.sidebar ul li a{
+    font-weight: 300;
+}
+.sidebar ul li a:hover{
+    font-weight: 300;
+    border-bottom: 1px #E55656 solid;
+}
+.big-input{
+    font-family: 'Lato', sans-serif;
+    width: 70%;
+    padding: 1rem;
+    margin: 1rem;
+    font-size: 25px;
+    font-weight: 300;
+    border-bottom: 1px #d5d5d5 solid;
+}
+.article-card{
+    margin: 1rem;
+    padding: 0 1rem;
+    border-bottom: 1px #d5d5d5 solid;
+    border-right: 1px #d5d5d5 solid;
+    cursor: pointer;
+}
+.article-card a:hover{
+    display: block;
+    color: #595959;
+}
+.article-dates{
+    text-align: left;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.article-body{
+    text-align: right;
+    margin: auto;
+}
+.article-body p{
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+}
+.article-topic{
+    text-align: right;
+    padding-right: 1rem;
+}
+.article-topic p{
+    text-transform: uppercase;
+    font-weight: 700;
+
+}
+.javascript-bg{
+    background-color: #f0db4f;
+}
+.python-bg{
+    background-color: #376a96;
+    color: #fff;
+}
+.node-bg{
+    background-color: #90c53f;
+}
+.webdev-bg{
+    background-color: #F2994A;
+}
+.blue-btn{
+    padding: .5rem 1rem;
+    color: #fafafa;
+    background-color: rgba(72, 132, 232, .9);
+}
+.blue-btn:hover{
+    color: #fafafa;
+    background-color: rgba(72, 132, 232, 1);
+}
+.red-bg{
+    padding: .5rem 1rem;
+    color: #fafafa;
+    background-color: rgba(229, 86, 86, .9);
+}
+.red-bg:hover{
+    color: #fafafa;
+    background-color: rgba(229, 86, 86, .9);
+}
+.purple-bg{
+    padding: .5rem 1rem;
+    color: #fafafa;
+    background-color: rgba(187, 107, 217, .9);
+}
+.purple-bg:hover{
+    color: #fafafa;
+    background-color: rgba(187, 107, 217, .9);
+}
+.submit{
+    padding: .5rem 1rem;
+    margin: 1rem 0 0 2rem;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 300;
+    background-color: rgba(229, 86, 86, .8);
+    color: #fafafa;
+    transition-property: background-color;
+}
+.submit:hover{
+    background-color: rgba(229, 86, 86, 1);
+    color: #fafafa;
+}
+.container{
+    margin: auto;
+    width: 95%;
+}
+.todo-entry{
+    width: 100%;
+    text-align: center;
+}
+
+.complete{
+    text-decoration: line-through;
+}
+.bottom{
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    z-index: 10;
+    background-color: #fafafa;
+    border-top: 1px #d5d5d5 solid;
+}
+.clear{
+    margin: 1rem 2rem;
+    cursor: pointer;
+}
+.check-container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.check-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #e0e0e0;
+}
+
+/* On mouse-over, add a grey background color */
+.check-container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a purple background */
+.check-container input:checked ~ .checkmark {
+    background-color: #BB6BD9;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.check-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.check-container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+@media only screen and (min-width:800px){
+    nav ul li{
+        float: left;
+        padding: 0 1.5rem;
+    }
+    .show-mobile{
+        display: none;
+    }
+    .hide-mobile{
+        display: flex;
+    }
+    .articles{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 2rem;
+    }
+    .two-grid{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 3rem;
+    }
+    #login{
+        margin: auto;
+        text-align: center;
+        padding: 10rem 0 0;
+    }
+    #login input{
+        width: 40%;
+
+    }
+}
+@media only screen and (min-width:1200px){
+    .sidebar{
+        display: block;
+    }
+    article{
+        width: 50%;
+    }
+}

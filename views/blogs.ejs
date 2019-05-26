@@ -1,0 +1,25 @@
+<div class="container">
+    <center>
+        <h1>Programming is beautiful</h1>
+    </center>
+
+</div>
+<div class="container articles">
+    <% data.forEach(item => { %>
+            <div class="article-card">
+                <a href="/blog/<%= item.topic%>/<%= item.slug.toLowerCase() %>">
+                <h2><%= item.article.title%></h2>
+                <div class="article-body">
+                    <div class="article-dates">
+                        <p>Published: <%= item.createdAt%></p>
+                        <p>Last updated: <%= item.updatedAt%></p>
+                    </div>
+                    <p>Author: <%= item.author%></p>
+                </div>
+                <div class="article-topic <%= item.topic%>-bg">
+                    <p><%= item.topic%></p>
+                </div>
+            </a>
+            </div>
+    <% }); %>
+</div>
