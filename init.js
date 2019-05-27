@@ -2,7 +2,6 @@ require('dotenv').config()
 const Sequelize = require('sequelize');
 const express = require('express');
 const app = express();
-const fs = require('fs');
 const bodyParser = require('body-parser');
 const slugify = require('slugify');
 const marked = require('marked');
