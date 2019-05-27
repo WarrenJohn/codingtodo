@@ -1,5 +1,5 @@
 # To-do web app
-**[codingtodo.com](codingtodo.com)**
+**[codingtodo.com](https://codingtodo.com/)**
 
 ## To do list
 Stores tasks in the localStorage as a stringified JSON object, when needed the string is parsed to back to JSON.
