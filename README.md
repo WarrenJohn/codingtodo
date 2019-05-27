@@ -1,8 +1,6 @@
 # To-do web app
 **[codingtodo.com](codingtodo.com)**
 
-This is a simple webapp I put together over a couple days because I wanted an easy to use 'to-do' list as well as a blog and thought it would be a bit of fun.
-
 ## To do list
 Stores tasks in the localStorage as a stringified JSON object, when needed the string is parsed to back to JSON.
 
@@ -16,7 +14,7 @@ Regular users will be able to add multiple projects to manage task lists.
 Blog title is used as the url slug.
 Blog topic is used as the css class (appended with a `-bg`).
 
-Authentication is done with a JWT stored in the users cookies (`req.headers.cookie`).
+Authentication is done with a JWT stored in the users cookies and checked with middleware on protected routes.
 
 ## Blog
 Added by admin, author defaults to me.
