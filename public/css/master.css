@@ -311,6 +311,9 @@ article a{
 .webdev-bg{
     background-color: #F2994A;
 }
+.sql-bg{
+    background-color: #E55656;
+}
 .blue-btn{
     padding: .5rem 1rem;
     color: #fafafa;
