@@ -45,8 +45,9 @@ header{
     border-bottom: 1px #d5d5d5 solid;
 }
 blockquote{
-    border-left: 1px #d5d5d5 solid;
-    padding-left: .25rem;
+    border-left: 2px #FFEB8E solid;
+    padding: 1rem;
+    background-color: #FFF8DC;
 }
 blockquote a{
     color: rgba(72, 132, 232, 1);
