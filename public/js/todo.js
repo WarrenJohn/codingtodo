@@ -49,26 +49,6 @@
         label.appendChild(span)
         return li;
     }
-
-    // function addTodo (userInput){
-    //     let randomID = Math.random().toString(36).substring(7);
-    //     const li = document.createElement('li');
-    //     const label = document.createElement('label');
-    //     const input = document.createElement('input');
-    //     const span = document.createElement('span');
-    //     label.id = randomID;
-    //     label.className += 'check-container';
-    //     input.type = 'checkbox'
-    //     span.className += 'checkmark';
-    //
-    //     label.textContent = userInput + ` (${new Date().toDateString()})`;
-    //
-    //     li.appendChild(label);
-    //     label.appendChild(input);
-    //     label.appendChild(span)
-    //     return li;
-    // }
-
     function Todo (){
         this.randomID = Math.random().toString(36).substring(7);
         this.li = document.createElement('li');
@@ -77,17 +57,28 @@
         this.span = document.createElement('span');
 
         this.add = function(userInput){
-            this.label.id = this.randomID;
-            this.label.className += 'check-container';
-            this.input.type = 'checkbox'
-            this.span.className += 'checkmark';
+            this._hasContent = function(){
+                if(userInput){
+                    return true;
+                }
+                else{
+                    return false;
+                };
+            }
+            if(this._hasContent(this.userInput)){
+                this.label.id = this.randomID;
+                this.label.className = 'check-container';
+                this.input.type = 'checkbox'
+                this.span.className = 'checkmark';
 
-            this.label.textContent = userInput + ` (${new Date().toDateString()})`;
+                this.label.textContent = userInput + ` (${new Date().toDateString()})`;
 
-            this.li.appendChild(this.label);
-            this.label.appendChild(this.input);
-            this.label.appendChild(this.span)
-            return this.li;
+                this.li.appendChild(this.label);
+                this.label.appendChild(this.input);
+                this.label.appendChild(this.span)
+                return this.li;
+            }
+            return false;
         }
 
     }
@@ -98,11 +89,13 @@
 
     todoInput.onkeydown = (e) => {
         if (e.keyCode == 13) { // enter key is 13
-            // const todo = addTodo(todo.value);
             const todo = new Todo();
-            list.appendChild(todo.add(todoInput.value));
-            addItem()
-            todoInput.value = ''; // input field value
+            if(todo.add(todoInput.value)){
+                list.appendChild(todo.add(todoInput.value));
+                todoInput.value = ''; // input field value
+                return addItem()
+            };
+            return;
         }
     }
     list.addEventListener('click', e => {
