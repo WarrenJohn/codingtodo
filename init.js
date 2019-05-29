@@ -438,4 +438,6 @@ app.post('/register', (req, res) => {
     }
 
 });
-app.listen(PORT)
+app.listen(PORT, () => {
+    console.log('\n\nExpress server running on Port:', PORT, '\n\n');
+})

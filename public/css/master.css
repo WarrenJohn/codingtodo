@@ -53,14 +53,15 @@ blockquote a{
     font-weight: 700;
 }
 footer{
-    background-color: #fafafa;
     position: relative;
     bottom: 0;
-    width: 100%;
-    margin-bottom: 5rem;
-    padding-top: 1rem;
+    z-index: 9;
+    background-color: #fafafa;
     text-align: center;
     border-top: 1px #d5d5d5 solid;
+    width: 100%;
+    margin-top: 2rem;
+    padding: 2rem 0 6rem 0;
 }
 nav{
     width: 80%;
@@ -115,12 +116,16 @@ textarea{
     width: 100%;
     border: 1px #d5d5d5 solid;
     border-radius: 10px;
-    max-width: 90vw;
+    max-width: 90%;
     font-family: 'Lato', sans-serif;
     font-size: 20px;
     font-weight: 300;
 }
 h1, h2, h3{
+    padding: 3rem 0 2rem 0;
+    font-weight: 400;
+}
+article h1, h2, h3{
     padding: 3rem 0 .5rem 2rem;
     font-weight: 400;
 }
@@ -359,11 +364,6 @@ article a{
     margin: auto;
     width: 95%;
 }
-.todo-entry{
-    width: 100%;
-    text-align: center;
-}
-
 .complete{
     text-decoration: line-through;
 }
