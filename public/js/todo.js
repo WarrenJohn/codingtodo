@@ -1,13 +1,14 @@
 (function(){
 
     const todoInput = document.getElementById('todo');
+    const clearTodo = document.getElementById('clear-todo');
     const list = document.getElementById('list');
     const li = list.querySelectorAll('li');
     const date = new Date();
     const storage = window.localStorage;
     const existingTodo = storage.todo ? JSON.parse(storage.todo) : false
 
-    function clearTodo(){
+    function clearTodoList(){
         storage.clear();
         list.innerHTML = ''
     }
@@ -105,5 +106,7 @@
         }
         addItem()
     });
-
+    clearTodo.addEventListener('click', () => {
+        clearTodoList();
+    })
 })();
