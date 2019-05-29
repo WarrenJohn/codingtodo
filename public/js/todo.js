@@ -23,7 +23,7 @@
             })
         }
         userItems = JSON.stringify(userItems);
-        storage.setItem('todo', userItems)
+        storage.setItem('todo', userItems);
 
     }
 
