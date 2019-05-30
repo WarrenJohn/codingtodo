@@ -1,55 +1,107 @@
 (function(){
 
-    const todoInput = document.getElementById('todo');
-    const clearTodo = document.getElementById('clear-todo');
-    const list = document.getElementById('list');
-    const li = list.querySelectorAll('li');
-    const date = new Date();
-    const storage = window.localStorage;
-    const existingTodo = storage.todo ? JSON.parse(storage.todo) : false
+    function List() {
+        this.listID = Math.random().toString(36).substring(7);
 
-    function clearTodoList(){
-        storage.clear();
-        list.innerHTML = ''
-    }
+        this.todoInput = document.createElement('input');
+        this.todoInput.type = 'text';
+        this.todoInput.className = 'big-input';
+        this.todoInput.placeholder = 'I have to...';
+        this.todoInput.autofocus = true;
+        this.todoInput.autocomplete = false;
 
-    function addItem(){
-        let children = list.children;
-        let userItems = Array();
-        for (let each of children){
-            itemID = each.children.item('label').id;
-            userItems.push({
-                'id': each.children.item('label').id,
-                'text': each.children.item('label').textContent,
-                'checked': each.children.item('label').children.item('input').checked
-            })
+        this.listDiv = document.createElement('div');
+        this.container = document.getElementById('todo-container');
+        this.container.appendChild(this.listDiv);
+
+        this.ul = document.createElement('ul');
+        this.ul.classList = 'list'
+        this.storage = window.localStorage;
+        this.existingTodo = this.storage.todo ? JSON.parse(this.storage.todo) : false;
+
+        this.bottom = document.createElement('div');
+        this.bottom.className = 'bottom';
+        this.clear = document.createElement('button');
+        this.clear.type = 'button';
+        this.clear.id = 'clear-todo';
+        this.clear.className = 'clear';
+        this.clear.textContent = 'Clear';
+        this.bottom.appendChild(this.clear);
+
+        this.setUp = function (id, text, checked){
+            this.li = document.createElement('li');
+            this.label = document.createElement('label');
+            this.input = document.createElement('input');
+            this.span = document.createElement('span');
+            this.label.id = id;
+            this.label.className = 'check-container';
+            this.input.type = 'checkbox';
+            if(checked){
+                this.label.classList.toggle('complete');
+                this.input.checked = checked;
+            }
+            this.span.className = 'checkmark';
+
+            this.label.textContent = text;
+
+            this.li.appendChild(this.label);
+            this.label.appendChild(this.input);
+            this.label.appendChild(this.span)
+            return this.li;
         }
-        userItems = JSON.stringify(userItems);
-        storage.setItem('todo', userItems);
-
-    }
-
-    function setUp(id, text, checked){
-        const li = document.createElement('li');
-        const label = document.createElement('label');
-        const input = document.createElement('input');
-        const span = document.createElement('span');
-        label.id = id;
-        label.className += 'check-container';
-        input.type = 'checkbox';
-        if(checked){
-            label.classList.toggle('complete');
-            input.checked = checked;
+        this.addItem = function (){
+            let children = this.ul.children;
+            let userItems = Array();
+            for (let each of children){
+                itemID = each.children.item('label').id;
+                userItems.push({
+                    'id': each.children.item('label').id,
+                    'text': each.children.item('label').textContent,
+                    'checked': each.children.item('label').children.item('input').checked
+                })
+            }
+            userItems = JSON.stringify(userItems);
+            return this.storage.setItem('todo', userItems);
+        };
+        this.clearTodoList = function (){
+            this.storage.clear();
+            this.ul.innerHTML = ''
         }
-        span.className += 'checkmark';
 
-        label.textContent = text;
+        this.todoInput.onkeydown = (e) => {
+           if (e.keyCode == 13) { // enter key
+               const todo = new Todo();
+               if(todo.add(this.todoInput.value)){
+                   this.ul.appendChild(todo.add(this.todoInput.value));
+                   this.todoInput.value = ''; // input field value
+                   return this.addItem()
+               };
+               return;
+           }
+       };
 
-        li.appendChild(label);
-        label.appendChild(input);
-        label.appendChild(span)
-        return li;
+       this.clear.addEventListener('click', () => {
+           this.clearTodoList();
+       });
+
+       this.ul.addEventListener('click', e => {
+           if(e.target.tagName === 'LABEL'){
+               const clicked = document.getElementById(e.target.id);
+               clicked.classList.toggle('complete');
+           }
+           return this.addItem()
+       });
+
+        this.ul.id = this.listID;
+        this.listDiv.appendChild(this.todoInput);
+        this.listDiv.appendChild(this.ul);
+        this.listDiv.appendChild(this.bottom);
+
+        this.existingTodo ? this.existingTodo.forEach(todo => {
+            this.ul.appendChild(this.setUp(todo.id, todo.text, todo.checked))
+        }) : false;
     }
+
     function Todo (){
         this.randomID = Math.random().toString(36).substring(7);
         this.li = document.createElement('li');
@@ -84,29 +136,6 @@
 
     }
 
-    existingTodo ? existingTodo.forEach(todo => {
-        list.appendChild(setUp(todo.id, todo.text, todo.checked))
-    }) : false;
+    new List();
 
-    todoInput.onkeydown = (e) => {
-        if (e.keyCode == 13) { // enter key is 13
-            const todo = new Todo();
-            if(todo.add(todoInput.value)){
-                list.appendChild(todo.add(todoInput.value));
-                todoInput.value = ''; // input field value
-                return addItem()
-            };
-            return;
-        }
-    }
-    list.addEventListener('click', e => {
-        if(e.target.tagName === 'LABEL'){
-            const clicked = document.getElementById(e.target.id);
-            clicked.classList.toggle('complete');
-        }
-        addItem()
-    });
-    clearTodo.addEventListener('click', () => {
-        clearTodoList();
-    })
 })();
