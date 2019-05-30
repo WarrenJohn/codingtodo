@@ -29,6 +29,7 @@
         this.bottom.appendChild(this.clear);
 
         this.setUp = function (id, text, checked){
+            // Set's up the list saved in localStorage
             this.li = document.createElement('li');
             this.label = document.createElement('label');
             this.input = document.createElement('input');
@@ -48,8 +49,11 @@
             this.label.appendChild(this.input);
             this.label.appendChild(this.span)
             return this.li;
-        }
+        };
+
         this.addItem = function (){
+            // Add's or updates an item to localStorage
+            // Will update when an item is checked
             let children = this.ul.children;
             let userItems = Array();
             for (let each of children){
@@ -63,10 +67,11 @@
             userItems = JSON.stringify(userItems);
             return this.storage.setItem('todo', userItems);
         };
+
         this.clearTodoList = function (){
-            this.storage.clear();
             this.ul.innerHTML = ''
-        }
+            return this.storage.clear();
+        };
 
         this.todoInput.onkeydown = (e) => {
            if (e.keyCode == 13) { // enter key
@@ -80,18 +85,6 @@
            }
        };
 
-       this.clear.addEventListener('click', () => {
-           this.clearTodoList();
-       });
-
-       this.ul.addEventListener('click', e => {
-           if(e.target.tagName === 'LABEL'){
-               const clicked = document.getElementById(e.target.id);
-               clicked.classList.toggle('complete');
-           }
-           return this.addItem()
-       });
-
         this.ul.id = this.listID;
         this.listDiv.appendChild(this.todoInput);
         this.listDiv.appendChild(this.ul);
@@ -100,6 +93,18 @@
         this.existingTodo ? this.existingTodo.forEach(todo => {
             this.ul.appendChild(this.setUp(todo.id, todo.text, todo.checked))
         }) : false;
+
+        this.clear.addEventListener('click', () => {
+            return this.clearTodoList();
+        });
+
+        this.ul.addEventListener('click', e => {
+            if(e.target.tagName === 'LABEL'){
+                const clicked = document.getElementById(e.target.id);
+                clicked.classList.toggle('complete');
+            }
+            return this.addItem()
+        });
     }
 
     function Todo (){
@@ -133,7 +138,6 @@
             }
             return false;
         }
-
     }
 
     new List();
