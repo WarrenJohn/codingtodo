@@ -1,7 +1,7 @@
 const cacheName = 'v2'
 const cacheFiles = [
     '/',
-    '/blog',
+    'blog/',
     '/static/swApp.js',
     '/static/js/todo.js',
     '/static/js/main.js',
@@ -52,7 +52,7 @@ self.addEventListener('fetch', e => {
     // console.log('[ServiceWorker] Fetch Event');
     e.respondWith(
         fetch(e.request)
-            .then(response => {
+            .then(res => {
                 const clone = res.clone();
                 caches
                     .open(cacheName)
@@ -62,7 +62,7 @@ self.addEventListener('fetch', e => {
                 return res;
             })
             .catch(err => caches.match(e.request)
-                .then(res => (res))
+                .then(res => {return res})
             )
     )
 })

@@ -187,7 +187,10 @@ app.use('/dashboard', validateToken);
 
 // Express
 const views = __dirname + '/public/views';
+
+app.use('/', express.static('./'));
 app.use('/static', express.static('public'));
+
 app.set('views', views);
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: false }));
