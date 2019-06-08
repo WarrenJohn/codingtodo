@@ -186,10 +186,8 @@ app.use('/dashboard', validateToken);
 
 
 // Express
-const views = __dirname + '/views';
+const views = __dirname + '/public/views';
 app.use('/static', express.static('public'));
-app.use('/blog/static', express.static('public'));
-app.use('/admin/static', express.static('public'));
 app.set('views', views);
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -234,7 +232,7 @@ app.get('/blog/:topic/:slug', async (req, res) => {
     });
     data = shortDate(data)
     // use router for these
-    res.render('main', {
+    return res.render('main', {
         file: 'article',
         data: data,
         content: marked(data[0].article.blog.trim()),
