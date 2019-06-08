@@ -112,50 +112,23 @@ const jwt = require('jsonwebtoken');
 
 const parseCookie = (cookie) => {
     if(cookie){
-        return cookie
-        .map(item => (item.trim()))
-        .filter(item => (item.includes('token')))
-        [0].split('=')
-        .pop();
-    }else{
-        return
+        if(cookie.includes('token')){
+            return cookie
+            .split(';')
+            .map(item => (item.trim()))
+            .filter(item => (item.includes('token')))
+            [0].split('=')
+            .pop();
+        }
+        return;
     }
+    return;
 }
-
-const validateAdminToken = (req, res, next) => {
-    let cookie = req.headers.cookie.split(';');
-    cookie = parseCookie(cookie)
-    if(cookie){
-        cookie = jwt.verify(cookie, jwtSecret)
-        if (cookie.admin){
-            next();
-        }else{
-            return res.cookie('token', '').status(401).redirect('/login')
-        }
-    }else{
-        return res.cookie('token', '').status(401).redirect('/login')
-    }
-};
-
-const validateToken = (req, res, next) => {
-    if(req.headers.cookie){
-        let cookie = req.headers.cookie.split(';');
-        cookie = parseCookie(cookie)
-        cookie = jwt.verify(cookie, jwtSecret)
-        if (cookie.admin){
-            return res.cookie('token', '').status(401).redirect('/login')
-        }else{
-            next();
-        }
-    }else{
-        return res.cookie('token', '').status(401).redirect('/login')
-    }
-};
 
 const isLoggedIn = (req, res, next) => {
     if(req.headers.cookie){
-        let cookie = req.headers.cookie.split(';')
-        cookie = parseCookie(cookie)
+        let cookie;
+        cookie = parseCookie(req.headers.cookie)
         if(cookie){
             cookie = jwt.verify(cookie, jwtSecret)
             if(cookie.admin){
@@ -177,6 +150,36 @@ const isLoggedIn = (req, res, next) => {
         res.locals.isLoggedIn = false;
         res.locals.isAdmin = false;
         next();
+    }
+};
+
+const validateAdminToken = (req, res, next) => {
+    let cookie;
+    cookie = parseCookie(req.headers.cookie)
+    if(cookie){
+        cookie = jwt.verify(cookie, jwtSecret)
+        if (cookie.admin){
+            next();
+        }else{
+            return res.cookie('token', '').status(401).redirect('/login')
+        }
+    }else{
+        return res.cookie('token', '').status(401).redirect('/login')
+    }
+};
+
+const validateToken = (req, res, next) => {
+    if(req.headers.cookie){
+        let cookie;
+        cookie = parseCookie(req.headers.cookie)
+        cookie = jwt.verify(cookie, jwtSecret)
+        if (cookie.admin){
+            return res.cookie('token', '').status(401).redirect('/login')
+        }else{
+            next();
+        }
+    }else{
+        return res.cookie('token', '').status(401).redirect('/login')
     }
 };
 
@@ -304,61 +307,6 @@ app.get('/logout', (req, res) => {
 })
 
 // POST
-app.post('/admin', (req, res) => {
-    if(Object.values(req.body)[0].toLowerCase() === 'edit'){
-        res.redirect(`/admin/edit-blog/${Object.keys(req.body)[0]}`);
-    }else if(Object.values(req.body)[0].toLowerCase() === 'delete'){
-        res.redirect(`/admin/delete-blog/${Object.keys(req.body)[0]}`);
-    }
-});
-app.post('/admin/add-blog', (req, res) => {
-    Articles.create({
-                topic: req.body.topic.toLowerCase(),
-                article: req.body,
-                author: 'Warren John',
-                slug: slugify(req.body.title).toLowerCase()
-            })
-        .then(response => {
-            res.render('main', {file: 'addBlog', result: 'Blog published!'})
-        })
-        .catch(err => {
-            res.render('main', {file: 'addBlog', result: 'The blog could not be published.'})
-        })
-})
-app.post('/admin/edit-blog/:slug', (req, res) => {
-    Articles.findOne({
-        where:{
-            slug: req.params.slug
-        }
-    })
-    .then((article) => {
-        article.update({
-            article: req.body,
-            topic: req.body.topic,
-            slug: slugify(req.body.title).toLowerCase()
-        })
-        res.redirect('/admin')
-    })
-    .catch(err => {
-        return Error(err);
-    });
-
-})
-app.post('/admin/delete-blog/:slug', (req, res) => {
-    Articles.findOne({
-        where:{
-            slug: req.params.slug
-        }
-    })
-    .then((article) => {
-        article.destroy()
-        res.redirect('/admin')
-    })
-    .catch(err => {
-        return Error(err);
-    });
-
-})
 app.post('/login', (req, res) => {
     Users.sync()
         .then(() => {
@@ -439,6 +387,62 @@ app.post('/register', (req, res) => {
     }
 
 });
+app.post('/admin', (req, res) => {
+    if(Object.values(req.body)[0].toLowerCase() === 'edit'){
+        res.redirect(`/admin/edit-blog/${Object.keys(req.body)[0]}`);
+    }else if(Object.values(req.body)[0].toLowerCase() === 'delete'){
+        res.redirect(`/admin/delete-blog/${Object.keys(req.body)[0]}`);
+    }
+});
+app.post('/admin/add-blog', (req, res) => {
+    Articles.create({
+                topic: req.body.topic.toLowerCase(),
+                article: req.body,
+                author: 'Warren John',
+                slug: slugify(req.body.title).toLowerCase()
+            })
+        .then(response => {
+            res.render('main', {file: 'addBlog', result: 'Blog published!'})
+        })
+        .catch(err => {
+            res.render('main', {file: 'addBlog', result: 'The blog could not be published.'})
+        })
+})
+app.post('/admin/edit-blog/:slug', (req, res) => {
+    Articles.findOne({
+        where:{
+            slug: req.params.slug
+        }
+    })
+    .then((article) => {
+        article.update({
+            article: req.body,
+            topic: req.body.topic,
+            slug: slugify(req.body.title).toLowerCase()
+        })
+        res.redirect('/admin')
+    })
+    .catch(err => {
+        return Error(err);
+    });
+
+})
+app.post('/admin/delete-blog/:slug', (req, res) => {
+    Articles.findOne({
+        where:{
+            slug: req.params.slug
+        }
+    })
+    .then((article) => {
+        article.destroy()
+        res.redirect('/admin')
+    })
+    .catch(err => {
+        return Error(err);
+    });
+
+})
+
 app.listen(PORT, () => {
     console.log('\n\nExpress server running on Port:', PORT, '\n\n');
 })
