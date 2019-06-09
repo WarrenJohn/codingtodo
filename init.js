@@ -293,13 +293,6 @@ app.get('/register', (req, res) => {
     res.render('main', {file: 'register', error: '', isLoggedIn: res.locals.isLoggedIn, isAdmin: res.locals.isAdmin});
 });
 app.get('/dashboard', (req, res) => {
-    // regular users
-    // no login necessary (but available), track by IP address
-    // let them have a shareable link to share list w/ people or themselves
-    // store their stuff in db by some sort of ID
-    // shows projects containing todo lists
-    // tile view, or list view
-    // let them load the data from a previous shareable link to continue working on it (or navigate directly to that link to continue working on it)
     res.render('main', {file: 'dashboard', isLoggedIn: res.locals.isLoggedIn, isAdmin: res.locals.isAdmin})
 })
 app.get('/logout', (req, res) => {

@@ -1,7 +1,4 @@
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-67813848-4"></script>
     <script>
@@ -20,6 +17,14 @@
     });
     </script>
 
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#E55656"/>
+    <meta name="msapplication-TileColor" content="#E55656">
+    <meta name="msapplication-TileImage" content="/static/images/favicon/ms-icon-144x144.png">
+    <meta name="description" content="A free, no login required todo list and coding blog."/>
+
     <link rel="apple-touch-icon" sizes="57x57" href="/static/images/favicon/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/static/images/favicon/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/static/images/favicon/apple-icon-72x72.png">
@@ -33,15 +38,15 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="/static/images/favicon/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/static/images/favicon/favicon-16x16.png">
-    <link rel="manifest" href="/static/images/favicon/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/static/images/favicon/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
+    
+    <link rel="manifest" href="/static/manifest.json">
+
 
     <link rel="stylesheet" href="/static/css/master.css">
     <script src="/static/js/main.js" defer></script>
     <% if (file==='todo') { %>
         <title>To-do List</title>
+        <meta name="description" content="A free, no login required todo list."/>
         <script src="/static/js/todo.js" defer></script>
     <% }%>
     <% if (file === 'addBlog' || file === 'editBlog') { %>
@@ -50,6 +55,7 @@
         <script src="/static/js/addBlog.js" defer></script>
     <% }%>
     <% if (file === 'article') { %>
+        <meta name="description" content="Coding blog"/>
         <script src="/static/js/article.js" defer></script>
     <% }%>
     <% if (file === 'admin' || file === 'deleteBlog') { %>
