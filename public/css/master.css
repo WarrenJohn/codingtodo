@@ -503,6 +503,6 @@ article a{
 }
 @media screen and (min-width: 1675px){
     .container{
-        margin-left: 0;
+        margin-left: 20px;
     }
 }
