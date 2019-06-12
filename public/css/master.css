@@ -178,6 +178,15 @@ div > p > code{
     border-radius: 3px;
     background-color: #F5F2F0;
 }
+div > p> em > code{
+    color: #991E93;
+    font-size: 15px;
+    font-weight: 300;
+    margin: .15rem .25rem;
+    padding: .15rem .25rem;
+    border-radius: 3px;
+    background-color: #F5F2F0;
+}
 article{
     width: 100%;
 }
