@@ -161,20 +161,22 @@ a:hover{
     color: rgba(229, 86, 86, 1);
 }
 pre{
+    background-color: rgba(0, 0, 0, 1);
     margin: 1rem;
     padding: 1rem;
     border-radius: 8px;
-    background-color: #282C34;
+    color: #77ADFF;
+    font-size: 13px;
     overflow: scroll;
 }
-code{
+div > p > code{
+    color: #991E93;
     font-size: 15px;
     font-weight: 300;
     margin: .15rem .25rem;
     padding: .15rem .25rem;
     border-radius: 3px;
-    background-color: #282C34;
-    color: #fff;
+    background-color: #F5F2F0;
 }
 article{
     width: 100%;
@@ -479,10 +481,19 @@ article a{
     }
 }
 @media only screen and (min-width:1200px){
+    .container{
+        margin-left: 8%;
+    }
     .sidebar{
         display: block;
+        background-color: #fafafa;
     }
     article{
         width: 50%;
+    }
+}
+@media screen and (min-width: 1675px){
+    .container{
+        margin-left: 0;
     }
 }

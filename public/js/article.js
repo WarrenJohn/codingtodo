@@ -10,7 +10,8 @@
     let headings = [...h1, ...h2, ...h3, ...h4, ...h5, ...h6];
     headings = headings.sort((a, b) => (
         a.offsetTop - b.offsetTop
-    ))
+    ));
+    
     function createSidebarLinks(heading){
         const li = document.createElement('li');
         const a = document.createElement('a');
@@ -23,5 +24,5 @@
     const sidebarLinks = headings.map(ele => createSidebarLinks(ele));
     sidebarLinks.forEach(link => {
         sidebar.appendChild(link);
-    })    
+    })
 })();
