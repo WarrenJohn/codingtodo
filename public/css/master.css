@@ -399,6 +399,7 @@ article a{
     list-style: url('/static/images/checkbox/boxbefore.png');
     font-size: 22px;
     font-weight: 300;
+    padding: .35rem;
     cursor: pointer;
 }
 .checkbox:hover{
@@ -458,6 +459,6 @@ article a{
 }
 @media screen and (min-width: 1675px){
     .container{
-        margin-left: 20px;
+        margin-left: 50px;
     }
 }
