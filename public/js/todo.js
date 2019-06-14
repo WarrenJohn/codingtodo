@@ -1,143 +1,140 @@
 (function(){
-
+    // window.localStorage.todo = "[{\"id\":\"ir869m\",\"content\":\"Test\",\"date\":\"2019-05-13T00:17:23.654Z\",\"completed\":true},{\"id\":\"d6ummv\",\"content\":\"https://unicode-table.com/en/#control-character \",\"date\":\"2019-06-13T00:17:29.837Z\",\"completed\":false},{\"id\":\"xgp84\",\"content\":\"https://unicode-table.com/en/#control-character \",\"date\":\"2019-06-13T00:17:37.321Z\",\"completed\":false},{\"id\":\"k95sae\",\"content\":\"Test 3\",\"date\":\"2019-06-13T00:25:25.835Z\",\"completed\":false},{\"id\":\"0wq15n\",\"content\":\"Test 4\",\"date\":\"2019-06-13T00:25:28.604Z\",\"completed\":false},{\"id\":\"hhy8h\",\"content\":\"https://unicode-table.com/en/#control-character \",\"date\":\"2019-06-13T00:25:30.228Z\",\"completed\":false},{\"id\":\"na86ce\",\"content\":\"https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API\",\"date\":\"2019-06-13T00:28:17.598Z\",\"completed\":false},{\"id\":\"hkb1hp\",\"content\":\"j\",\"date\":\"2019-06-13T19:54:22.582Z\",\"completed\":false},{\"id\":\"2er74\",\"content\":\"k\",\"date\":\"2019-06-13T19:55:22.732Z\",\"completed\":false},{\"id\":\"99wh1\",\"content\":\"h\",\"date\":\"2019-06-13T20:02:59.845Z\",\"completed\":false},{\"id\":\"o7n4f7\",\"content\":\"h\",\"date\":\"2019-06-13T20:03:20.439Z\",\"completed\":false},{\"id\":\"4emkxmr\",\"content\":\"l\",\"date\":\"2019-06-13T20:07:32.426Z\",\"completed\":false}]"
     function List() {
         this.listID = Math.random().toString(36).substring(7);
 
-        this.todoInput = document.createElement('input');
-        this.todoInput.type = 'text';
-        this.todoInput.className = 'big-input';
-        this.todoInput.placeholder = 'I have to...';
-        this.todoInput.autofocus = true;
-        this.todoInput.autocomplete = false;
 
-        this.listDiv = document.createElement('div');
-        this.container = document.getElementById('todo-container');
-        this.container.appendChild(this.listDiv);
+        const todoInput = document.createElement('input'),
+            listDiv = document.createElement('div'),
+            container = document.getElementById('todo-container'),
+            list = document.createElement('ul'),
+            clearStorageBar = document.createElement('div'),
+            clearButton = document.createElement('button'),
+            storage = window.localStorage;
 
-        this.ul = document.createElement('ul');
-        this.ul.classList = 'list'
-        this.storage = window.localStorage;
-        this.existingTodo = this.storage.todo ? JSON.parse(this.storage.todo) : false;
+        todoInput.type = 'text';
+        todoInput.className = 'big-input';
+        todoInput.placeholder = 'I have to...';
+        todoInput.autofocus = true;
+        todoInput.autocomplete = false;
 
-        this.bottom = document.createElement('div');
-        this.bottom.className = 'bottom';
-        this.clear = document.createElement('button');
-        this.clear.type = 'button';
-        this.clear.id = 'clear-todo';
-        this.clear.className = 'clear';
-        this.clear.textContent = 'Clear';
-        this.bottom.appendChild(this.clear);
+        this.todo = storage.todo ? JSON.parse(storage.todo) : new Array();
+        container.appendChild(listDiv);
+        list.classList = 'list'
+        clearStorageBar.className = 'bottom';
+        clearButton.type = 'button';
+        clearButton.id = 'clear-todo';
+        clearButton.className = 'clear';
+        clearButton.textContent = 'Clear';
+        clearStorageBar.appendChild(clearButton);
 
-        this.setUp = function (id, text, checked){
+        this.setUp = function (id, date, completed, content){
             // Set's up the list saved in localStorage
-            this.li = document.createElement('li');
-            this.label = document.createElement('label');
-            this.input = document.createElement('input');
-            this.span = document.createElement('span');
-            this.label.id = id;
-            this.label.className = 'check-container';
-            this.input.type = 'checkbox';
-            if(checked){
-                this.label.classList.toggle('complete');
-                this.input.checked = checked;
-            }
-            this.span.className = 'checkmark';
-
-            this.label.textContent = text;
-
-            this.li.appendChild(this.label);
-            this.label.appendChild(this.input);
-            this.label.appendChild(this.span)
-            return this.li;
+            return new Todo(content, id, date, completed);
         };
 
-        this.addItem = function (){
-            // Add's or updates an item to localStorage
-            // Will update when an item is checked
-            let children = this.ul.children;
-            let userItems = Array();
-            for (let each of children){
-                itemID = each.children.item('label').id;
-                userItems.push({
-                    'id': each.children.item('label').id,
-                    'text': each.children.item('label').textContent,
-                    'checked': each.children.item('label').children.item('input').checked
-                })
+        this.updateStorage = function (isNew, id){
+            if (isNew){
+                return storage.setItem('todo', JSON.stringify(this.todo))
             }
-            userItems = JSON.stringify(userItems);
-            return this.storage.setItem('todo', userItems);
+
+            for (let item in this.todo){
+                if(this.todo[item].id === id){
+                    this.todo[item].completed = !this.todo[item].completed;
+                }
+            }
+
+            return storage.setItem('todo', JSON.stringify(this.todo));
         };
 
         this.clearTodoList = function (){
-            this.ul.innerHTML = ''
-            return this.storage.clear();
+            list.innerHTML = ''
+            return storage.clear();
         };
 
-        this.todoInput.onkeydown = (e) => {
+        todoInput.onkeydown = (e) => {
            if (e.keyCode == 13) { // enter key
-               const todo = new Todo();
-               if(todo.add(this.todoInput.value)){
-                   this.ul.appendChild(todo.add(this.todoInput.value));
-                   this.todoInput.value = ''; // input field value
-                   return this.addItem()
+               if(todoInput.value){
+                   const todo = new Todo(todoInput.value);
+                   if(todo){
+                       list.appendChild(todo);
+                       todoInput.value = ''; // input field value
+                       this.todo.push({
+                           id: todo.id,
+                           content: todo.content,
+                           date: todo.date,
+                           completed: todo.completed
+                       })
+                       return this.updateStorage(true)
+                   }
+
                };
                return;
            }
        };
 
-        this.ul.id = this.listID;
-        this.listDiv.appendChild(this.todoInput);
-        this.listDiv.appendChild(this.ul);
-        this.listDiv.appendChild(this.bottom);
-
-        this.existingTodo ? this.existingTodo.forEach(todo => {
-            this.ul.appendChild(this.setUp(todo.id, todo.text, todo.checked))
+        list.id = this.listID;
+        listDiv.appendChild(todoInput);
+        listDiv.appendChild(list);
+        listDiv.appendChild(clearStorageBar);
+        this.todo ? this.todo.forEach(todo => {
+            list.appendChild(this.setUp(todo.id, todo.date, todo.completed, todo.content))
         }) : false;
 
-        this.clear.addEventListener('click', () => {
+        clearButton.addEventListener('click', () => {
             return this.clearTodoList();
         });
 
-        this.ul.addEventListener('click', e => {
-            if(e.target.tagName === 'LABEL'){
-                const clicked = document.getElementById(e.target.id);
-                clicked.classList.toggle('complete');
+        list.addEventListener('click', e => {
+            if (e.target.tagName === 'LI'){
+                e.target.classList.toggle('complete')
+                return this.updateStorage(false, e.target.id)
             }
-            return this.addItem()
         });
     }
 
-    function Todo (){
-        this.randomID = Math.random().toString(36).substring(7);
-        this.li = document.createElement('li');
-        this.label = document.createElement('label');
-        this.input = document.createElement('input');
-        this.span = document.createElement('span');
+    function Todo (content, id, date, completed){
+        this.content = content;
+        this.id = id || Math.random().toString(36).substring(7);
+        this.date = date ? new Date(date) : new Date();
+        this.completed = completed || false;
 
-        this.add = function(userInput){
-            this._hasContent = function(){
-                if(userInput){
-                    return true;
-                }
-                else{
-                    return false;
-                };
-            }
-            if(this._hasContent(this.userInput)){
-                this.label.id = this.randomID;
-                this.label.className = 'check-container';
-                this.input.type = 'checkbox'
-                this.span.className = 'checkmark';
+        this.listItem = document.createElement('li');
+        this.listItem.id = this.id;
+        this.listItem.className = 'checkbox';
 
-                this.label.textContent = userInput + ` (${new Date().toDateString()})`;
-
-                this.li.appendChild(this.label);
-                this.label.appendChild(this.input);
-                this.label.appendChild(this.span)
-                return this.li;
-            }
-            return false;
+        this._isURL = function() {
+            const pattern = /^\s*[a-z](?:[-a-z0-9\+\.])*:(?:\/\/(?:(?:%[0-9a-f][0-9a-f]|[-a-z0-9\._~\uA0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF\u10000-\u1FFFD\u20000-\u2FFFD\u30000-\u3FFFD\u40000-\u4FFFD\u50000-\u5FFFD\u60000-\u6FFFD\u70000-\u7FFFD\u80000-\u8FFFD\u90000-\u9FFFD\uA0000-\uAFFFD\uB0000-\uBFFFD\uC0000-\uCFFFD\uD0000-\uDFFFD\uE1000-\uEFFFD!\$&\'\(\)\*\+,;=:])*@)?(?:\[(?:(?:(?:[0-9a-f]{1,4}:){6}(?:[0-9a-f]{1,4}:[0-9a-f]{1,4}|(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(?:\.(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3})|::(?:[0-9a-f]{1,4}:){5}(?:[0-9a-f]{1,4}:[0-9a-f]{1,4}|(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(?:\.(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3})|(?:[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){4}(?:[0-9a-f]{1,4}:[0-9a-f]{1,4}|(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(?:\.(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3})|(?:[0-9a-f]{1,4}:[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){3}(?:[0-9a-f]{1,4}:[0-9a-f]{1,4}|(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(?:\.(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3})|(?:(?:[0-9a-f]{1,4}:){0,2}[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){2}(?:[0-9a-f]{1,4}:[0-9a-f]{1,4}|(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(?:\.(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3})|(?:(?:[0-9a-f]{1,4}:){0,3}[0-9a-f]{1,4})?::[0-9a-f]{1,4}:(?:[0-9a-f]{1,4}:[0-9a-f]{1,4}|(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(?:\.(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3})|(?:(?:[0-9a-f]{1,4}:){0,4}[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:[0-9a-f]{1,4}|(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(?:\.(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3})|(?:(?:[0-9a-f]{1,4}:){0,5}[0-9a-f]{1,4})?::[0-9a-f]{1,4}|(?:(?:[0-9a-f]{1,4}:){0,6}[0-9a-f]{1,4})?::)|v[0-9a-f]+[-a-z0-9\._~!\$&\'\(\)\*\+,;=:]+)\]|(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(?:\.(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}|(?:%[0-9a-f][0-9a-f]|[-a-z0-9\._~\uA0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF\u10000-\u1FFFD\u20000-\u2FFFD\u30000-\u3FFFD\u40000-\u4FFFD\u50000-\u5FFFD\u60000-\u6FFFD\u70000-\u7FFFD\u80000-\u8FFFD\u90000-\u9FFFD\uA0000-\uAFFFD\uB0000-\uBFFFD\uC0000-\uCFFFD\uD0000-\uDFFFD\uE1000-\uEFFFD!\$&\'\(\)\*\+,;=@])*)(?::[0-9]*)?(?:\/(?:(?:%[0-9a-f][0-9a-f]|[-a-z0-9\._~\uA0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF\u10000-\u1FFFD\u20000-\u2FFFD\u30000-\u3FFFD\u40000-\u4FFFD\u50000-\u5FFFD\u60000-\u6FFFD\u70000-\u7FFFD\u80000-\u8FFFD\u90000-\u9FFFD\uA0000-\uAFFFD\uB0000-\uBFFFD\uC0000-\uCFFFD\uD0000-\uDFFFD\uE1000-\uEFFFD!\$&\'\(\)\*\+,;=:@]))*)*|\/(?:(?:(?:(?:%[0-9a-f][0-9a-f]|[-a-z0-9\._~\uA0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF\u10000-\u1FFFD\u20000-\u2FFFD\u30000-\u3FFFD\u40000-\u4FFFD\u50000-\u5FFFD\u60000-\u6FFFD\u70000-\u7FFFD\u80000-\u8FFFD\u90000-\u9FFFD\uA0000-\uAFFFD\uB0000-\uBFFFD\uC0000-\uCFFFD\uD0000-\uDFFFD\uE1000-\uEFFFD!\$&\'\(\)\*\+,;=:@]))+)(?:\/(?:(?:%[0-9a-f][0-9a-f]|[-a-z0-9\._~\uA0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF\u10000-\u1FFFD\u20000-\u2FFFD\u30000-\u3FFFD\u40000-\u4FFFD\u50000-\u5FFFD\u60000-\u6FFFD\u70000-\u7FFFD\u80000-\u8FFFD\u90000-\u9FFFD\uA0000-\uAFFFD\uB0000-\uBFFFD\uC0000-\uCFFFD\uD0000-\uDFFFD\uE1000-\uEFFFD!\$&\'\(\)\*\+,;=:@]))*)*)?|(?:(?:(?:%[0-9a-f][0-9a-f]|[-a-z0-9\._~\uA0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF\u10000-\u1FFFD\u20000-\u2FFFD\u30000-\u3FFFD\u40000-\u4FFFD\u50000-\u5FFFD\u60000-\u6FFFD\u70000-\u7FFFD\u80000-\u8FFFD\u90000-\u9FFFD\uA0000-\uAFFFD\uB0000-\uBFFFD\uC0000-\uCFFFD\uD0000-\uDFFFD\uE1000-\uEFFFD!\$&\'\(\)\*\+,;=:@]))+)(?:\/(?:(?:%[0-9a-f][0-9a-f]|[-a-z0-9\._~\uA0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF\u10000-\u1FFFD\u20000-\u2FFFD\u30000-\u3FFFD\u40000-\u4FFFD\u50000-\u5FFFD\u60000-\u6FFFD\u70000-\u7FFFD\u80000-\u8FFFD\u90000-\u9FFFD\uA0000-\uAFFFD\uB0000-\uBFFFD\uC0000-\uCFFFD\uD0000-\uDFFFD\uE1000-\uEFFFD!\$&\'\(\)\*\+,;=:@]))*)*|(?!(?:%[0-9a-f][0-9a-f]|[-a-z0-9\._~\uA0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF\u10000-\u1FFFD\u20000-\u2FFFD\u30000-\u3FFFD\u40000-\u4FFFD\u50000-\u5FFFD\u60000-\u6FFFD\u70000-\u7FFFD\u80000-\u8FFFD\u90000-\u9FFFD\uA0000-\uAFFFD\uB0000-\uBFFFD\uC0000-\uCFFFD\uD0000-\uDFFFD\uE1000-\uEFFFD!\$&\'\(\)\*\+,;=:@])))(?:\?(?:(?:%[0-9a-f][0-9a-f]|[-a-z0-9\._~\uA0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF\u10000-\u1FFFD\u20000-\u2FFFD\u30000-\u3FFFD\u40000-\u4FFFD\u50000-\u5FFFD\u60000-\u6FFFD\u70000-\u7FFFD\u80000-\u8FFFD\u90000-\u9FFFD\uA0000-\uAFFFD\uB0000-\uBFFFD\uC0000-\uCFFFD\uD0000-\uDFFFD\uE1000-\uEFFFD!\$&\'\(\)\*\+,;=:@])|[\uE000-\uF8FF\uF0000-\uFFFFD|\u100000-\u10FFFD\/\?])*)?(?:\#(?:(?:%[0-9a-f][0-9a-f]|[-a-z0-9\._~\uA0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF\u10000-\u1FFFD\u20000-\u2FFFD\u30000-\u3FFFD\u40000-\u4FFFD\u50000-\u5FFFD\u60000-\u6FFFD\u70000-\u7FFFD\u80000-\u8FFFD\u90000-\u9FFFD\uA0000-\uAFFFD\uB0000-\uBFFFD\uC0000-\uCFFFD\uD0000-\uDFFFD\uE1000-\uEFFFD!\$&\'\(\)\*\+,;=:@])|[\/\?])*)?\s*$/i
+            return pattern.test(this.content);
+        };
+        this._hasContent = function(){
+            return Boolean(this.content)
         }
+        this._createLink = function(){
+            const a = document.createElement('a');
+            span = document.createElement('span');
+            a.target = '_blank';
+            a.href = content;
+            // if I use margin or padding the line-through skips the padding and goes right to the link
+            a.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#128279;';
+            span.appendChild(a);
+            return span;
+        }
+        if(this._hasContent(this.content)){
+
+            this.listItem.textContent = content + ` (${this.date.toDateString()})`;
+
+            if (this._isURL(this.content)) {
+                a = this._createLink();
+                this.listItem.appendChild(a);
+            }
+
+            if(completed){
+                this.listItem.classList.toggle('complete');
+            }
+            return this.listItem;
+        }
+        return;
     }
 
     new List();
