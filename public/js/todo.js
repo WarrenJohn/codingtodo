@@ -1,8 +1,7 @@
 (function(){
     function List() {
         this.listID = Math.random().toString(36).substring(7);
-
-
+        
         const todoInput = document.createElement('input'),
             listDiv = document.createElement('div'),
             container = document.getElementById('todo-container'),
@@ -142,7 +141,12 @@
         }
         return;
     }
-
+try{
     new List();
+}
+catch{
+    window.localStorage.clear();
+    new List();
+}
 
 })();
