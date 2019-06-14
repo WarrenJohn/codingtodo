@@ -18,6 +18,7 @@
         todoInput.autocomplete = false;
 
         this.todo = storage.todo ? JSON.parse(storage.todo) : new Array();
+
         container.appendChild(listDiv);
         list.classList = 'list'
         clearStorageBar.className = 'bottom';
@@ -56,7 +57,7 @@
                if(todoInput.value){
                    const todo = new Todo(todoInput.value);
                    if(todo){
-                       list.appendChild(todo);
+                       list.appendChild(todo.li);
                        todoInput.value = ''; // input field value
                        this.todo.push({
                            id: todo.id,
@@ -77,7 +78,7 @@
         listDiv.appendChild(list);
         listDiv.appendChild(clearStorageBar);
         this.todo ? this.todo.forEach(todo => {
-            list.appendChild(this.setUp(todo.id, todo.date, todo.completed, todo.content))
+            list.appendChild(this.setUp(todo.id, todo.date, todo.completed, todo.content).li)
         }) : false;
 
         clearButton.addEventListener('click', () => {
@@ -131,7 +132,13 @@
             if(completed){
                 this.listItem.classList.toggle('complete');
             }
-            return this.listItem;
+            return {
+                li: this.listItem,
+                id: this.id,
+                content: this.content,
+                date: this.date,
+                completed: this.completed
+            };
         }
         return;
     }
